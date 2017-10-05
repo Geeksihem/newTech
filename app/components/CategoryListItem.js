@@ -5,6 +5,8 @@ import   {ScrollView , TouchableOpacity, StyleSheet,Text, View,Dimensions, Image
 }
 const {width, height} = Dimensions.get('window');
 class CategoryListItem extends Component {
+  
+
   render() {
     return (
        <ScrollView style={{flex: 1}}>  

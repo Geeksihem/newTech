@@ -1,3 +1,17 @@
+/* 
+    <List>
+            <ListItem avatar>
+             
+              <Body style= {{flexDirection: 'row', padding: 40 }}>
+                   <Text style= {{marginTop: 20}}>Kumar Pratik   </Text> 
+          <Thumbnail  source={{ uri: 'https://test.parse-server.karizma1.com/parse/files/FA55638B3F62A6FB2C6A76264D438/41908f68d0ed65316ffed8e4b38aea8e_sami%40g.fr.png' }} />
+
+  
+                
+              </Body>
+              
+            </ListItem>
+          </List>*/
 import React, { Component } from 'react';
 import {
   Text,
@@ -15,7 +29,7 @@ import {
         done: false,
         visible: true
       }
-
+ 
       }
 
     timer(){

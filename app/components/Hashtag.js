@@ -63,8 +63,8 @@ lapsList() {
     return this.state.tabTags.map((element, index  ) => {
       return (
           
-        <Text   onPress = { () =>  {this.props.navigation.navigate( 'Cat', { isStatusBarHidden: false , tag : element    }  )} }>
-             # {element} 
+        <Text   onPress = { () =>  {this.props.navigation.navigate( 'Cat', { isStatusBarHidden: false , tag : element.name    }  )} }>
+             # {element.name } 
             </Text>
            
          
@@ -83,9 +83,14 @@ var aux= [];
  query.find({
   success:  (results)  =>   {
     var a = this.state.nom
-   
+    console.log("ress", results )
     for(var i=0 ; i< results.length ; i++) { 
-    aux[i]= results[i].get("name"); 
+    aux.push({
+      name: results[i].get("name"), 
+      nbr : results[i].get("nbrPosts")
+    }) 
+    console.log("taag", aux[i]); 
+    
    }
   
    this.setState({

@@ -12,8 +12,8 @@ import {
   View
 } from 'react-native';
  
-import Menu    from './app/components/Menu';
+import Router    from './app/components/Router';
 
-
-AppRegistry.registerComponent('newTech', () => Menu);
+ // here i call menu file 
+AppRegistry.registerComponent('newTech', () => Router);
  

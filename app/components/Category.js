@@ -35,7 +35,7 @@ export default class Category extends   Component {
            <Image  source={require('./images/back.png')} style={{  height: 24 , width: 24 }}   />
           </TouchableOpacity>
           </Left>
-           <Body>
+           <Body style= {{alignItems: 'center'}} >
             <Title>الأقسام </Title>
           </Body>
 

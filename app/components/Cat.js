@@ -6,6 +6,8 @@ import Display from 'react-native-display';
 import Content from './Content';
 import Category from './Category';
 import PostListItem from './PostListItem';
+import {Keyboard} from 'react-native'; 
+
 //import { StackNavigator, DrawerNavigator } from "react-navigation";
 import Parse from 'parse/react-native';
 const {width, height} = Dimensions.get('window');
@@ -15,7 +17,8 @@ export default class  Cat  extends Component{
    drawerLabel: "Cat",
    header:null ,
    enableHeader : false , 
-   enableHeaderTitle : false 
+   enableHeaderTitle : false , 
+
  });
 
 	constructor(props) {
@@ -27,16 +30,17 @@ export default class  Cat  extends Component{
      show: false, 
      aux :  this.props.navigation.state.params ,
      auxNote: '',
-    
+     enableHeader: false , 
+
     }
     }
 
 	render (){
 		const { params } = this.props.navigation.state;
 		return(
- <View style={{ flex:1, backgroundColor:'white'}}>
+ <View style={{ flex:1, backgroundColor:'white'}} >
 <Display enable={this.state.enableHeader}>
- <Header>
+ <Header  >
   <Image
       style={{ width: width , position: "absolute"}}
        source= {require('./images/bg-header.png') } />
@@ -58,7 +62,7 @@ export default class  Cat  extends Component{
 
    
     </Display>
-
+   
            <View style={{ flex: 1 ,alignItems : 'center', backgroundColor: '#eeecf6'}}>
       <ScrollView style={{flex: 1}}>
             {this.state.show && <ListView
@@ -66,7 +70,7 @@ export default class  Cat  extends Component{
                renderRow={ this._renderItem.bind(this)  }
                enableEmptySections={true} />}
       </ScrollView>
-
+    
   </View>
 </View>
     )
@@ -75,12 +79,24 @@ export default class  Cat  extends Component{
 	_renderItem  = (item  ) =>  {
   return (
   
-    <PostListItem    item={item} navigation={this.props.navigation}    />
+    <PostListItem    item={item} loggedUser = { this.props.navigation.state.params.loggedUser } preferedNews = {this.prefered.bind(this)} navigation={this.props.navigation}    />
   );
 }
- 
- componentDidMount() {
+prefered(){
+	 if  (this.props.navigation.state.params.prefered != undefined )  
+   {return (  this.props.navigation.state.params.prefered  );} 
 
+  else {return (""); } 
+} 
+ loggedUser(){
+  if  (this.props.navigation.state.params.loggedUser != undefined )  
+   {return (  this.props.navigation.state.params.loggedUser  );} 
+
+  else {return ("no user"); } 
+ }
+ componentDidMount() {
+ 	console.log("dsds", this.props.navigation.state.params);
+  
   Parse.initialize("FA55638B3F62A6FB2C6A76264D438");
 Parse.serverURL = 'https://test.parse-server.karizma1.com/parse';
 var GameScore = Parse.Object.extend("Post");
@@ -90,20 +106,26 @@ var tasks = [];
    
  query.include('category')
  query.descending("createdAt");  
-
+  
  	if(this.props.navigation.state.routeName  != 'HomePage')
 	{
-      
-     
+
+        
+		if(  this.state.aux.keyWord  != undefined)
+		{   var auxKey=  this.state.aux.keyWord +""; 
+		 
+			query.contains("title",  auxKey ); 
+		}   
+  
     	 var  note =  this.props.navigation.state.params.note; 
+           
+
     	 if (note == 'note')
     	 {
     	 	 query.descending("note"); 
     	 }
   
-     this.setState({
-     	auxNote : this.props.navigation.state.params.note
-     })
+    
    
     if(this.props.navigation.state.params.id != '')
     	{this.setState({
@@ -114,17 +136,14 @@ var tasks = [];
    	 categ:  this.props.navigation.state.params.id
 
    }) 
- 
    
-	}
 
- 
+    
+	}
  
   query.find({
   success: (results) => {
-  	console.log("rouuuuuute", this.props.navigation.state.routeName ); 
- 
-
+  	console.log("noted ", results.length); 
  var xds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
  this.setState({
   dataSource: xds.cloneWithRows(results),
